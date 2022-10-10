@@ -26,8 +26,14 @@
     socket.emit('mensaje', {nombre:'Cristian'});
 
     // Recibimos un mensaje del servidor
-    socket.on('mensaje', function(payload){
+    socket.on('nuevo-mensaje', function(payload){
       console.log('Escuchando: ', payload );
+    });
+
+    // Recibimos las bandas desde el servidor
+    socket.on('active-bands', function(bands) {
+      console.clear();
+      console.table(bands);
     });
 
   </script>
