@@ -48,10 +48,23 @@ bands.addBand( new Band( 'Metallica' ) );
       client.broadcast.emit('nuevo-mensaje',payload);
     });
 
+    // Cuando el client vota a una banda
     client.on('vote-band', (band) => {
       // console.log(payload);
       bands.voteBand( band['id'] );
       // Emitimos a todos los clientes la información actualizada
+      io.emit('active-bands', bands.getBands());
+    });
+
+    // Cuando un client agrega una banda
+    client.on('add-band', (band) => {
+      const newBand = new Band(band.name);
+      bands.addBand( newBand );
+      io.emit('active-bands', bands.getBands());
+    });
+
+    client.on('delete-band',(band)=> {
+      bands.deleteBand( band['id'] );
       io.emit('active-bands', bands.getBands());
     });
 
